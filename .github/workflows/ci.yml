@@ -11,14 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    # Backend
-    - uses: actions/setup-dotnet@v4
+    # --------------------------
+    # Backend .NET
+    # --------------------------
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore .NET
+    # Cache NuGet packages
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          nuget-${{ runner.os }}-
+
+    - name: Restore .NET packages
       run: dotnet restore backend/TaskManager.API.sln
 
     - name: Build .NET
@@ -27,17 +40,33 @@ jobs:
     - name: Test .NET
       run: dotnet test backend/TaskManager.API.sln --configuration Release --no-build
 
-    # Frontend
-    - uses: actions/setup-node@v4
+    # --------------------------
+    # Frontend Angular
+    # --------------------------
+    - name: Setup Node
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
 
+    # Cache npm
+    - name: Cache npm
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: npm-${{ runner.os }}-${{ hashFiles('frontend/task-manager-ui/package-lock.json') }}
+        restore-keys: |
+          npm-${{ runner.os }}-
+
     - name: Install frontend dependencies
-      run: npm install
+      run: npm ci
       working-directory: frontend/task-manager-ui
 
+    # Install Chromium for headless Karma tests
+    - name: Install Chromium
+      run: sudo apt-get install -y chromium-browser
+
     - name: Run frontend tests
-      run: npm test -- --watch=false --browsers=ChromeHeadless
+      run: npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox
       working-directory: frontend/task-manager-ui
 
     - name: Build frontend
