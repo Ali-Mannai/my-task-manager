@@ -18,25 +18,28 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - run: dotnet restore
-      working-directory: backend
+    - name: Restore .NET
+      run: dotnet restore backend/TaskManager.API.sln
 
-    - run: dotnet build --configuration Release --no-restore
-      working-directory: backend
+    - name: Build .NET
+      run: dotnet build backend/TaskManager.API.sln --configuration Release --no-restore
 
-    - run: dotnet test --configuration Release --no-build
-      working-directory: backend
+    - name: Test .NET
+      run: dotnet test backend/TaskManager.API.sln --configuration Release --no-build
 
     # Frontend
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    - run: npm install
+    - name: Install frontend dependencies
+      run: npm install
       working-directory: frontend/task-manager-ui
 
-    - run: npm test -- --watch=false --browsers=ChromeHeadless
+    - name: Run frontend tests
+      run: npm test -- --watch=false --browsers=ChromeHeadless
       working-directory: frontend/task-manager-ui
 
-    - run: npm run build
+    - name: Build frontend
+      run: npm run build
       working-directory: frontend/task-manager-ui
