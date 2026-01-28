@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # --------------------------
+    # Checkout repository
+    # --------------------------
     - name: Checkout repository
       uses: actions/checkout@v4
 
@@ -32,13 +35,13 @@ jobs:
           nuget-${{ runner.os }}-
 
     - name: Restore .NET packages
-      run: dotnet restore backend/TaskManager.API.sln
+      run: dotnet restore backend/TaskManager.API/TaskManager.API.csproj
 
     - name: Build .NET
-      run: dotnet build backend/TaskManager.API.sln --configuration Release --no-restore
+      run: dotnet build backend/TaskManager.API/TaskManager.API.csproj --configuration Release --no-restore
 
     - name: Test .NET
-      run: dotnet test backend/TaskManager.API.sln --configuration Release --no-build
+      run: dotnet test backend/TaskManager.API/TaskManager.API.csproj --configuration Release --no-build
 
     # --------------------------
     # Frontend Angular
@@ -48,7 +51,7 @@ jobs:
       with:
         node-version: '20'
 
-    # Cache npm
+    # Cache npm packages
     - name: Cache npm
       uses: actions/cache@v3
       with:
@@ -61,7 +64,7 @@ jobs:
       run: npm ci
       working-directory: frontend/task-manager-ui
 
-    # Install Chromium for headless Karma tests
+    # Install Chromium for headless tests
     - name: Install Chromium
       run: sudo apt-get install -y chromium-browser
 
