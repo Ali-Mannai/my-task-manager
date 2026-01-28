@@ -1,10 +1,15 @@
-[ApiController]
-[Route("api/tasks")]
-public class TasksController : ControllerBase
+using Microsoft.AspNetCore.Mvc;
+
+namespace TaskManager.API.Controllers
 {
-    [HttpGet]
-    public IActionResult Get()
+    [ApiController]
+    [Route("api/tasks")]
+    public class TasksController : ControllerBase
     {
-        return Ok(new[] { "Task 1", "Task 2" });
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(new[] { "Task 1", "Task 2" });
+        }
     }
 }
