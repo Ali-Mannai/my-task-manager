@@ -1,0 +1,42 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Backend
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - run: dotnet restore
+      working-directory: backend
+
+    - run: dotnet build --configuration Release --no-restore
+      working-directory: backend
+
+    - run: dotnet test --configuration Release --no-build
+      working-directory: backend
+
+    # Frontend
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - run: npm install
+      working-directory: frontend/task-manager-ui
+
+    - run: npm test -- --watch=false --browsers=ChromeHeadless
+      working-directory: frontend/task-manager-ui
+
+    - run: npm run build
+      working-directory: frontend/task-manager-ui
