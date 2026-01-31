@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./backend/TaskManager.API
+    container_name: taskmanager-api
+    ports:
+      - "5000:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Server=db;Database=TaskManager;User=sa;Password=Your_password123;
+
+
+  ui:
+    build:
+      context: ./frontend/task-manager-ui
+    container_name: taskmanager-ui
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
