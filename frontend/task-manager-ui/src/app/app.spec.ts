@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Task } from './services/task';
 import { provideHttpClient } from '@angular/common/http';
+import { TaskService } from './services/TaskService';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        Task,
+        TaskService,
         provideHttpClient(),
         provideHttpClientTesting()
       ]
