@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { TaskService } from './TaskService';
 
-import { Task } from './task';   // ou le chemin correct
 
 describe('Task Service', () => {
-  let service: Task;
+  let service:  TaskService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        Task,
+        TaskService,
         provideHttpClient(),           // ← le vrai en prod
         provideHttpClientTesting()     // ← le mock pour les tests
       ]
     });
 
-    service = TestBed.inject(Task);
+    service = TestBed.inject(TaskService);
   });
 
   it('should be created', () => {

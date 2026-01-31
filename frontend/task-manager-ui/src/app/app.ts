@@ -1,22 +1,39 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Task } from './services/task';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TaskService } from './services/TaskService';
+import { Task } from './models/Task';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [ CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly title = signal('task-manager-ui');
+export class App implements OnInit {
 
-constructor(private taskService: Task) {}
+  title = signal('task-manager-ui');
+  tasks: Task[] = [];
 
-  tasks: string[] = [];
+  constructor(private taskService: TaskService) {
+      console.log('Constructor App called');
 
-ngOnInit() {
-  this.taskService.getTasks().subscribe(data => this.tasks = data);
-}
+  }
 
+  ngOnInit() {
+    console.log('App component initialized');
+    console.error('ERROR TEST');
+    console.warn('WARN TEST');
+    console.log('LOG TEST');
+
+    this.taskService.getTasks().subscribe({
+      next: (data) => {
+        this.tasks = data;
+        console.log('Tasks loaded:', this.tasks);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des tâches:', error);
+      }
+    });
+  }
 }

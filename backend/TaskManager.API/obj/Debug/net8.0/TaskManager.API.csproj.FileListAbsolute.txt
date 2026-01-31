@@ -31,3 +31,4 @@ C:\Users\a50048329\Desktop\my-task-manager\backend\TaskManager.API\obj\Debug\net
 C:\Users\a50048329\Desktop\my-task-manager\backend\TaskManager.API\obj\Debug\net8.0\TaskManager.API.pdb
 C:\Users\a50048329\Desktop\my-task-manager\backend\TaskManager.API\obj\Debug\net8.0\TaskManager.API.genruntimeconfig.cache
 C:\Users\a50048329\Desktop\my-task-manager\backend\TaskManager.API\obj\Debug\net8.0\ref\TaskManager.API.dll
+C:\Users\a50048329\Desktop\my-task-manager\backend\TaskManager.API\obj\Debug\net8.0\TaskManager.API.sourcelink.json
