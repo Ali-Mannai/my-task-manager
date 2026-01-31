@@ -9,8 +9,6 @@ services:
       - "5000:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__DefaultConnection: Server=db;Database=TaskManager;User=sa;Password=Your_password123;
-
 
   ui:
     build:
